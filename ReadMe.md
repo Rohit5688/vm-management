@@ -45,7 +45,7 @@ Cucumber reporting v5.3.1
 1. Clone repo to eclipse
 2. Build project
 3. Run "/vm-management/src/main/java/com/vm/management/vmmanagement/VmManagementApplication.java" 
-as Java Application or Run maven install it will create jar, then you can run jar using java- jar location/to/jar
+as Java Application or Run maven install it will create jar, then you can run jar using java -jar location/to/jar
 4. The application will run on localhost:8080
 5. To check documentation related to end points refer url: http://localhost:8080/swagger-ui/index.html
 6. Once the application is up and running run mvn clean install to run karate tests

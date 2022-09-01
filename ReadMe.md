@@ -1,6 +1,6 @@
 #vm-management
 
-######Requirement
+######Requirements
 ```
 Assume you are the administrator of a cloud which hosts some finite number of Virtual Machines. Users
 of your cloud can borrow or check-out VMs for use. Once they are done using it, they can check-in the VM

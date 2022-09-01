@@ -1,5 +1,7 @@
 package com.vm.management.vmmanagement.user;
 
+import java.util.ArrayList;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,17 +19,17 @@ public class User {
 	@Column(columnDefinition = "boolean default false")
 	private boolean Is_Vm_Allocated;
 	@Column
-	private String ipallocated;
+	private ArrayList<String> ipallocated = new ArrayList<>();
 
 	public User() {
 
 	}
 
-	public User(Integer id, boolean is_Vm_Allocated) {
+	public User(Integer id, boolean is_Vm_Allocated, ArrayList<String> ipallocated) {
 		super();
 		this.id = id;
 		Is_Vm_Allocated = is_Vm_Allocated;
-		this.ipallocated = ipallocated;
+		this.ipallocated = new ArrayList<>();
 	}
 
 	public Integer getId() {
@@ -46,12 +48,13 @@ public class User {
 		Is_Vm_Allocated = is_Vm_Allocated;
 	}
 
-	public String getIpallocated() {
+	public ArrayList<String> getIpallocated() {
 		return ipallocated;
 	}
 
-	public void setIpallocated(String ipallocated) {
+	public void setIpallocated(ArrayList<String> ipallocated) {
 		this.ipallocated = ipallocated;
+
 	}
 
 	@Override

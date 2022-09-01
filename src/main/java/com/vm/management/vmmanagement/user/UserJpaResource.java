@@ -4,6 +4,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,11 +55,6 @@ public class UserJpaResource {
 		return userRepository.findAll();
 	}
 
-	// http://localhost:8080/users
-
-	// EntityModel
-	// WebMvcLinkBuilder
-
 	@GetMapping("/users/{id}")
 	public EntityModel<User> retrieveUser(@PathVariable int id) {
 		Optional<User> user = userRepository.findById(id);
@@ -75,11 +70,6 @@ public class UserJpaResource {
 		return entityModel;
 	}
 
-	@DeleteMapping("/users/{id}")
-	public void deleteUser(@PathVariable int id) {
-		userRepository.deleteById(id);
-	}
-
 	@GetMapping("/users/{id}/vms")
 	public String retrieveVmsForUser(@PathVariable Integer id) {
 		Optional<User> user = userRepository.findById(id);
@@ -88,7 +78,6 @@ public class UserJpaResource {
 			throw new UserNotFoundException("id: " + id + " Invalid User ID, Please check your USER ID");
 		String out = "IP allocate to user: " + user.get().getIpallocated();
 		return out;
-
 	}
 
 	@GetMapping("/vms")
@@ -122,7 +111,12 @@ public class UserJpaResource {
 		vm.setis_Vm_Available(false);
 		vm.setIp(vmUser.get().getIp());
 		vmRepository.save(vm);
-		user.get().setIpallocated(vmUser.get().getIp());
+		ArrayList<String> ipsallocated = user.get().getIpallocated();
+		if (ipsallocated.contains("")) {
+			ipsallocated.remove(0);
+		}
+		ipsallocated.add(vmUser.get().getIp());
+		user.get().setIpallocated(ipsallocated);
 		user.get().setIs_Vm_Allocated(true);
 		User userinuse = userRepository.save(user.get());
 		URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(vm.getVmid())
@@ -154,6 +148,13 @@ public class UserJpaResource {
 		vm.setIp(vmUser.get().getIp());
 		vmRepository.save(vm);
 		user.get().setIs_Vm_Allocated(false);
+		ArrayList<String> ipsallocated = user.get().getIpallocated();
+		if (user.get().getIpallocated().isEmpty()) {
+			ipsallocated.add("");
+			user.get().setIpallocated(ipsallocated);
+		}
+		ipsallocated.remove(vmUser.get().getIp());
+		user.get().setIpallocated(ipsallocated);
 		User userinuse = userRepository.save(user.get());
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(vm.getVmid())
 				.toUri();

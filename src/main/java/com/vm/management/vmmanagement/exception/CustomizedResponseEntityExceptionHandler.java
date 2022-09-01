@@ -54,6 +54,16 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
 	}
 
+	@ExceptionHandler(VmAllocatedToOtherUserExceptiom.class)
+	public final ResponseEntity<ErrorDetails> handleVmAllocatedToOtherUserExceptiom(Exception ex, WebRequest request)
+			throws Exception {
+		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), ex.getMessage(),
+				request.getDescription(false));
+
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_ACCEPTABLE);
+
+	}
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {

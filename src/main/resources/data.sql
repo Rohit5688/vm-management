@@ -1,13 +1,24 @@
+
 MERGE INTO user_details 
-(id) VALUES (1);
+(id,ipallocated) VALUES (1,'');
 MERGE INTO user_details 
-(id) VALUES (2);
+(id,ipallocated) VALUES (2,'');
 MERGE INTO user_details 
-(id) VALUES (3);
+(id,ipallocated) VALUES (3,'');
 MERGE INTO user_details 
-(id) VALUES (4);
+(id,ipallocated) VALUES (4,'');
 MERGE INTO user_details 
-(id) VALUES (5);
+(id,ipallocated) VALUES (5,'');
+
+MERGE
+   INTO  user_details u
+   USING vm_details v
+   ON  ( v.userid = u.id and
+         v.ip is not null)
+WHEN MATCHED
+THEN
+   UPDATE
+   SET   u.ipallocated= v.ip;
 
 
 MERGE into vm_details(vmid,ip)

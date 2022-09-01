@@ -11,14 +11,14 @@ Feature: Test VM-Management
     And header Accept = 'application/json'
     When method GET
     Then status 200
-    And match response contains {"ipallocated":null,"id":1},{"ipallocated":null,"id":2},{"ipallocated":null,"id":3},{"ipallocated":null,"id":4},{"ipallocated":null,"id":5}
+    And match response contains {"ipallocated":[],"id":1},{"ipallocated":[""],"id":2},{"ipallocated":[""],"id":3},{"ipallocated":[""],"id":4},{"ipallocated":[""],"id":5}
 
   Scenario: Verify user is able to get user by id
     Given path 'users/1'
     And header Accept = 'application/json'
     When method GET
     Then status 200
-    And match response contains {"_links":{"all-users":{"href":"http:\/\/localhost:8080\/users"}},"ipallocated":null}
+    And match response contains {"_links":{"all-users":{"href":"http://localhost:8080/users"}},"ipallocated":[]}
 
   Scenario: Verify application gives error when user try to get empty/null user
     Given path 'users/'
